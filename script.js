@@ -50,12 +50,10 @@ function addToLibrary() {
     bookPages.className = "pages";
     bookRead.className = "read";
     delBtn.className = "delete-btn";
-    bookTitle.style.overflowY = "auto";
-    bookAuthor.style.overflowY = "auto";
-    bookPages.style.overflowY = "auto";
     bookTitle.textContent = `Title: ${library[i].title}`;
     bookAuthor.textContent = `Author: ${library[i].author}`;
     bookPages.textContent = `Pages: ${library[i].pages}`;
+    delBtn.textContent = `DELETE BOOK`;
 
     if (library[i].read) {
       bookRead.classList.add("yes");
