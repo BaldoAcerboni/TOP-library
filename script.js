@@ -18,6 +18,9 @@ function Book(title, author, pages, read) {
   this.author = author || "Unknown";
   this.pages = pages || 0;
   this.read = read;
+  /* this.position = library.findIndex((obj) => {
+    return obj.title === this.title && obj.author === this.author;
+  }); */
 }
 
 function addToLibrary() {
@@ -89,8 +92,6 @@ function openForm() {
 }
 
 function modifyRead(e) {
-  library[e.target.parentNode.dataset.id].read =
-    !library[e.target.parentNode.dataset.id].read;
   if (e.target.classList.contains("yes")) {
     e.target.classList.remove("yes");
     e.target.classList.add("no");
@@ -100,11 +101,21 @@ function modifyRead(e) {
     e.target.classList.add("yes");
     e.target.textContent = "ALREADY READ";
   }
+  library[e.target.parentNode.dataset.id].read =
+    !library[e.target.parentNode.dataset.id].read;
 }
 
 function deleteBook(e) {
-  library.splice(e.target.dataset.id, 1);
+  library.splice(e.target.parentNode.dataset.id, 1);
   e.target.parentNode.remove();
+  //code below is to modify the data-id of each following book element otherwise
+  //they'd be messed up after each book delete
+  const books = document.querySelectorAll(".book");
+  Array.from(books).forEach((book) => {
+    if (book.dataset.id > e.target.parentNode.dataset.id) {
+      book.dataset.id = `${Number(book.dataset.id) - 1}`;
+    }
+  });
 }
 
 confirmBtn.addEventListener("click", addToLibrary);
