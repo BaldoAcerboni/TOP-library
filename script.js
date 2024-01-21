@@ -1,13 +1,19 @@
-//DOM
+//--DOM--
+
+//main section
 const container = document.getElementById("container");
 const newBookBtn = document.getElementById("new-book");
 const confirmBtn = document.getElementById("confirm-btn");
+
+//new book form
 const newBookForm = document.getElementById("new-book-form");
 const newTitle = document.getElementById("new-title");
 const newAuthor = document.getElementById("author");
 const newPages = document.getElementById("pages");
 const newRead = document.getElementById("read");
 const newNotRead = document.getElementById("not-read");
+
+//books, their descendants and tip box
 const titleElement = document.getElementsByClassName("title");
 const authorElement = document.getElementsByClassName("author");
 const pagesElement = document.getElementsByClassName("pages");
@@ -15,11 +21,14 @@ const readModifier = document.getElementsByClassName("read");
 const deleteBtn = document.getElementsByClassName("delete-btn");
 const bookElements = document.getElementsByClassName("book");
 const tip = document.getElementById("tip");
+
+//edit modal
 const editModal = document.getElementById("edit");
 const editLabel = document.getElementById("edit-label");
 const editInput = document.getElementById("edit-input");
 const editBtn = document.getElementById("confirm-edit");
 
+//main library array
 const library = [];
 
 //variable used to store the index of the book being edited
@@ -63,6 +72,7 @@ function addToLibrary() {
   bookEventListener();
 }
 
+//DOM functions and event listeners
 function displayBooks() {
   for (let i = 0; i < library.length; i++) {
     const book = document.createElement("div");
@@ -113,6 +123,7 @@ function bookEventListener() {
       tip.style.display = "none";
     });
   });
+
   //EDITS
   Array.from(titleElement).forEach((tE) => {
     tE.addEventListener("click", editTitle);
