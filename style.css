@@ -25,9 +25,10 @@ main {
   background: #693f00;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
-  align-content: center;
+  align-content: space-evenly;
+  gap: 10px;
 }
 
 .book {
@@ -98,4 +99,9 @@ footer > button:active {
 .new-book-modal input[type="text"],
 .new-book-modal input[type="number"] {
   width: 60%;
+}
+
+.delete-book,
+.read {
+  cursor: pointer;
 }

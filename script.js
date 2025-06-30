@@ -3,11 +3,6 @@ const container = document.querySelector(".container");
 const newBookBtn = document.querySelector(".new-book");
 const bookDOM = document.querySelectorAll(".book");
 
-// const titleInput = document.querySelector("#title-input");
-// const authorInput = document.querySelector("#author-input");
-// const pagesInput = document.querySelector("#pages-input");
-// const confirmBookBtn = document.querySelector("#confirm-btn");
-
 function Book(title, author, pages, read, id) {
   this.title = title;
   this.author = author;
@@ -16,18 +11,49 @@ function Book(title, author, pages, read, id) {
   this.id = id;
 }
 
+Book.prototype.setRead = function () {
+  if (this.read === "Arleady read") {
+    this.read = "Not read yet";
+  } else {
+    this.read = "Arleady read";
+  }
+};
+
 function addBookToLibrabry(title, author, pages, read) {
   const id = crypto.randomUUID();
   myLibrary.push(new Book(title, author, pages, read, id));
-  container.innerHTML = "";
 
   makeDOMLibrary();
 }
 
+function deleteBook(e) {
+  const bookId = e.target.parentNode.id;
+  for (let i = 0; i < myLibrary.length; i++) {
+    if (myLibrary[i].id === bookId) {
+      myLibrary.splice(i, 1);
+      break;
+    }
+  }
+  makeDOMLibrary();
+}
+
+function changeReadStatus(e) {
+  const bookId = e.target.parentNode.id;
+  for (let i = 0; i < myLibrary.length; i++) {
+    if (myLibrary[i].id === bookId) {
+      myLibrary[i].setRead();
+      break;
+    }
+  }
+  makeDOMLibrary();
+}
+
 function makeDOMLibrary() {
+  container.innerHTML = "";
   for (let i = 0; i < myLibrary.length; i++) {
     const book = document.createElement("div");
     book.className = "book";
+    book.id = myLibrary[i].id;
 
     const titleSection = document.createElement("div");
     titleSection.className = "title";
@@ -56,6 +82,17 @@ function makeDOMLibrary() {
     book.appendChild(delBtn);
     container.appendChild(book);
   }
+  //variables and eventListener here because they get messed up in global scope
+  const deleteBtn = document.querySelectorAll(".delete-book");
+  const readBtn = document.querySelectorAll(".read");
+
+  Array.from(deleteBtn).forEach((btn) => {
+    btn.addEventListener("click", deleteBook);
+  });
+
+  Array.from(readBtn).forEach((btn) => {
+    btn.addEventListener("click", changeReadStatus);
+  });
 }
 
 function createNewBookModal() {
@@ -120,7 +157,8 @@ function createNewBookModal() {
   modal.appendChild(btnCont);
 
   document.body.appendChild(modal);
-
+  //event listener put inside here because otherwise dynamically generated content
+  //would not be found by document.querySelector() from global scope
   confirmBtn.addEventListener("click", () => {
     if (
       titleInput.value &&
@@ -140,7 +178,6 @@ function createNewBookModal() {
         +pagesInput.value,
         isRead
       );
-      console.log(myLibrary);
       modal.remove();
       return;
     }
@@ -154,22 +191,6 @@ function createNewBookModal() {
       console.log("The number of pages needs to be an integer greater than 0");
     }
   });
-
-  // console.log(!!titleInput.value); //false if empty
-  // console.log(!!authorInput.value); //false if empty
-  // console.log(!!pagesInput.value); //false if empty
 }
-
-function makeNewBook() {
-  console.log(titleInput);
-  if (titleInput.value && authorInput.value && pagesInput.value) {
-    console.log("bubi");
-  }
-}
-
-// addBookToLibrabry("bubi of the baba of the bobo", "baba", 77, "already read");
-// addBookToLibrabry("title", "author", 29, "not read yet");
 
 newBookBtn.addEventListener("click", createNewBookModal);
-
-// confirmBookBtn.addEventListener("click", makeNewBook);
