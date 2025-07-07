@@ -3,21 +3,23 @@ const container = document.querySelector(".container");
 const newBookBtn = document.querySelector(".new-book");
 const bookDOM = document.querySelectorAll(".book");
 
-function Book(title, author, pages, read, id) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.id = id;
-}
-
-Book.prototype.setRead = function () {
-  if (this.read === "Arleady read") {
-    this.read = "Not read yet";
-  } else {
-    this.read = "Arleady read";
+class Book {
+  constructor(title, author, pages, read, id) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+    this.id = id;
   }
-};
+
+  setRead() {
+    if (this.read === "Arleady read") {
+      this.read = "Not read yet";
+    } else {
+      this.read = "Arleady read";
+    }
+  }
+}
 
 function addBookToLibrabry(title, author, pages, read) {
   const id = crypto.randomUUID();
